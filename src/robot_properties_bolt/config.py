@@ -11,7 +11,45 @@ import numpy as np
 from math import pi
 import pinocchio as se3
 from pinocchio.robot_wrapper import RobotWrapper
-from robot_properties_bolt.resources import Resources
+# from robot_properties_bolt.resources import Resources
+
+from pathlib import Path
+
+
+class Resources(object):
+    def __init__(self, robot_name, robot_family="bolt") -> None:
+        super().__init__()
+
+        self.package_path = str(Path(__file__).resolve().parent.absolute())
+
+        self.robot_name = str(robot_name)
+        self.robot_family = str(robot_family)
+
+        self.resources_dir = Path(self.package_path) / "resources"
+
+        self.dgm_yaml_path = str(
+            self.resources_dir
+            / "dynamic_graph_manager"
+            / ("dgm_parameters_" + self.robot_name + ".yaml")
+        )
+
+        self.urdf_path = str(
+            self.resources_dir / "urdf" / (self.robot_name + ".urdf")
+        )
+        self.simu_urdf_path = str(
+            self.resources_dir / "urdf" / "bolt_passive_ankle.urdf"
+        )
+        self.srdf_path = str(
+            self.resources_dir / "srdf" / (self.robot_family + ".srdf")
+        )
+        self.meshes_path = str(Path(self.package_path).parent)
+
+        self.imp_ctrl_yaml_path = str(
+            self.resources_dir / "impedance_ctrl.yaml"
+        )
+
+        self.resources_dir = str(self.resources_dir)
+
 
 
 class BoltAbstract(object):
